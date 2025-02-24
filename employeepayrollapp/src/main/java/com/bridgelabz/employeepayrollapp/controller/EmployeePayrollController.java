@@ -31,12 +31,12 @@ public class EmployeePayrollController {
 
     @PostMapping("/create")
     public Employee createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.saveEmployee(new Employee(employeeDTO));
+        return employeeService.saveEmployee(employeeDTO);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
-        Employee updatedEmployee = employeeService.updateEmployee(id, new Employee(employeeDTO));
+        Employee updatedEmployee = employeeService.updateEmployee(id, employeeDTO);
         return ResponseEntity.ok(updatedEmployee);
     }
 
