@@ -1,7 +1,6 @@
 package com.bridgelabz.employeepayrollapp.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "employees")
@@ -17,6 +16,11 @@ public class Employee {
     public Employee(String name, double salary) {
         this.name = name;
         this.salary = salary;
+    }
+
+    public Employee(com.bridgelabz.employeepayrollapp.dto.EmployeeDTO employeeDTO) {
+        this.name = employeeDTO.getName();
+        this.salary = employeeDTO.getSalary();
     }
 
     public String getName() {
