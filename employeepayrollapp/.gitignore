@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore log files and compressed logs
+logs/
+*.log
+*.gz
+
