@@ -22,9 +22,9 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(Long id) {
+    public Employee getEmployeeById(Long id) {
         log.info("Fetching employee with ID: {}", id);
-        return employeeRepository.findById(id);
+        return employeeRepository.findById(id).orElse(null); // No exception
     }
 
     public Employee saveEmployee(EmployeeDTO employeeDTO) {
@@ -35,18 +35,19 @@ public class EmployeeService {
 
     public Employee updateEmployee(Long id, EmployeeDTO employeeDTO) {
         log.info("Updating employee with ID: {}", id);
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Employee with ID {} not found", id);
-                    return new RuntimeException("Employee not found");
-                });
-        employee.setName(employeeDTO.getName());
-        employee.setSalary(employeeDTO.getSalary());
-        return employeeRepository.save(employee);
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            employee.setName(employeeDTO.getName());
+            employee.setSalary(employeeDTO.getSalary());
+            return employeeRepository.save(employee);
+        }
+        return null; // No exception
     }
 
     public void deleteEmployee(Long id) {
         log.warn("Deleting employee with ID: {}", id);
-        employeeRepository.deleteById(id);
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        employeeOptional.ifPresent(employeeRepository::delete); // No exception
     }
 }
