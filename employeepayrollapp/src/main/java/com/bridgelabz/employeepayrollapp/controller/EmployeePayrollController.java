@@ -22,12 +22,9 @@ public class EmployeePayrollController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         Employee employee = employeeService.getEmployeeById(id);
-        if (employee != null) {
-            return ResponseEntity.ok(employee);
-        }
-        return ResponseEntity.badRequest().body("Employee ID not found");
+        return ResponseEntity.ok(employee);
     }
 
     @PostMapping("/create")
@@ -36,17 +33,14 @@ public class EmployeePayrollController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
         Employee updatedEmployee = employeeService.updateEmployee(id, employeeDTO);
-        if (updatedEmployee != null) {
-            return ResponseEntity.ok(updatedEmployee);
-        }
-        return ResponseEntity.badRequest().body("Employee ID not found");
+        return ResponseEntity.ok(updatedEmployee);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
-        return ResponseEntity.ok("Employee deleted successfully (if exists)");
+        return ResponseEntity.ok("Employee deleted successfully");
     }
 }
